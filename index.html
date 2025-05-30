@@ -64,6 +64,7 @@
             border-radius: 30px;
             font-size: 1rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            outline: none; /* Remove blue outline on focus */
         }
         
         .filter-buttons {
@@ -81,6 +82,7 @@
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
         
         .filter-btn:hover, .filter-btn.active {
@@ -102,6 +104,8 @@
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; /* Make cards flex containers */
+            flex-direction: column; /* Stack content vertically */
         }
         
         .resource-card:hover {
@@ -117,6 +121,9 @@
         
         .card-body {
             padding: 20px;
+            flex-grow: 1; /* Allow body to take available space */
+            display: flex; /* Use flex for internal content alignment */
+            flex-direction: column;
         }
         
         .level-badge {
@@ -129,9 +136,11 @@
             margin-bottom: 5px;
         }
         
-        .A1 { background: #ffb74d; color: #333; }
-        .A2 { background: #81c784; color: #333; }
-        
+        .A1 { background: #ffcc80; color: #333; } /* Lighter orange */
+        .A2 { background: #a5d6a7; color: #333; } /* Lighter green */
+        .B1 { background: #90caf9; color: #333; } /* Lighter blue for B1 */
+        .B2 { background: #ffab91; color: #333; } /* Lighter coral for B2 */
+
         .resource-type {
             display: inline-block;
             margin-top: 10px;
@@ -147,9 +156,10 @@
             color: white;
             text-decoration: none;
             border-radius: 4px;
-            margin-top: 15px;
+            margin-top: auto; /* Push button to the bottom */
             font-weight: 500;
             transition: background 0.3s ease;
+            text-align: center;
         }
         
         .btn:hover {
@@ -162,11 +172,23 @@
             border-radius: 5px;
             margin-top: 15px;
             border-left: 4px solid var(--accent);
+            font-size: 0.95rem;
         }
         
         .lesson-details h4 {
             margin-top: 0;
             color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .lesson-details ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+
+        .lesson-details ul li {
+            margin-bottom: 5px;
         }
         
         footer {
@@ -175,6 +197,8 @@
             padding: 2rem 0;
             color: #666;
             border-top: 1px solid #eee;
+            background-color: white;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.03);
         }
         
         @media (max-width: 768px) {
@@ -185,6 +209,15 @@
             h1 {
                 font-size: 2rem;
             }
+
+            .filter-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .filter-btn {
+                width: 80%;
+            }
         }
     </style>
 </head>
@@ -192,229 +225,315 @@
     <header>
         <div class="container">
             <h1>IRIS Language Academy Teaching Hub</h1>
-            <p class="subtitle">Ready-to-use communicative lesson plans for all levels</p>
+            <p class="subtitle">Ready-to-use communicative lesson plans and activities for all levels</p>
         </div>
     </header>
     
     <div class="container">
         <div class="search-bar">
-            <input type="text" placeholder="Search lesson plans, activities, or resources...">
+            <input type="text" id="searchInput" placeholder="Search lesson plans, activities, or resources...">
         </div>
         
         <div class="filter-buttons">
-            <button class="filter-btn active">All Levels</button>
-            <button class="filter-btn">A1</button>
-            <button class="filter-btn">A2</button>
-            <button class="filter-btn">Warm-ups</button>
-            <button class="filter-btn">Speaking</button>
-            <button class="filter-btn">Grammar</button>
+            <button class="filter-btn active" data-filter="all">All Levels</button>
+            <button class="filter-btn" data-filter="A1">A1</button>
+            <button class="filter-btn" data-filter="A2">A2</button>
+            <button class="filter-btn" data-filter="Warm-ups">Warm-ups</button>
+            <button class="filter-btn" data-filter="Speaking">Speaking</button>
+            <button class="filter-btn" data-filter="Grammar">Grammar</button>
+            <button class="filter-btn" data-filter="Vocabulary">Vocabulary</button>
+            <button class="filter-btn" data-filter="Digital">Digital</button>
         </div>
         
         <h2>Complete Lesson Plans</h2>
         
-        <div class="resource-grid">
-            <!-- Lesson Plan 1 -->
-            <div class="resource-card">
+        <div class="resource-grid" id="resourceGrid">
+            <div class="resource-card" data-levels="A1 A2" data-types="Grammar Digital Speaking">
                 <div class="card-header">
                     <h3>Digital Scavenger Hunt (Present Simple)</h3>
                 </div>
                 <div class="card-body">
-                    <p>A communicative activity where students search for online information to complete sentences.</p>
+                    <p>An interactive and communicative activity where students leverage online resources to practice the Present Simple tense by searching for information.</p>
                     <span class="level-badge A1">A1</span>
                     <span class="level-badge A2">A2</span>
                     <div class="resource-type">Grammar • Digital • Speaking</div>
                     
                     <div class="lesson-details">
                         <h4>Lesson Plan Highlights:</h4>
-                        <p><strong>Warm-up:</strong> "Find someone who..." mingler with simple present questions</p>
-                        <p><strong>Activity:</strong> Students search real websites to complete "People around the world..." sentences</p>
-                        <p><strong>Extension:</strong> Create a class infographic with findings</p>
+                        <ul>
+                            <li><strong>Learning Objectives:</strong> Students will be able to form and use Present Simple sentences to describe facts and routines; practice scanning for specific information online.</li>
+                            <li><strong>Target Audience:</strong> Young learners to adults (A1-A2).</li>
+                            <li><strong>Materials:</strong> Internet-enabled devices (computers, tablets), projector (optional), worksheets with incomplete sentences.</li>
+                            <li><strong>Procedure Outline:</strong>
+                                <ol>
+                                    <li><strong>Warm-up (5-10 min):</strong> "Find someone who..." mingler with simple present questions (e.g., "Find someone who wakes up before 7 AM").</li>
+                                    <li><strong>Activity (30-40 min):</strong> Students work in pairs or small groups. Provide them with a list of "People around the world..." sentences to complete (e.g., "In Japan, people usually eat _____ for breakfast." or "Most professional athletes train _____ hours a day."). Students use search engines to find the missing information, focusing on Present Simple.</li>
+                                    <li><strong>Discussion & Correction (10-15 min):</strong> Groups share their findings. Correct sentences and clarify any vocabulary or grammatical points.</li>
+                                    <li><strong>Extension (10-15 min):</strong> Students create their own "interesting facts" sentences using the Present Simple, which can be compiled into a class "fact book" or digital infographic.</li>
+                                </ol>
+                            </li>
+                            <li><strong>Differentiation:</strong> Provide sentence starters for lower levels; encourage more complex sentence structures for higher levels.</li>
+                        </ul>
                     </div>
                     
-                    <a href="#download1" class="btn">Download PDF</a>
+                    <a href="downloads/digital_scavenger_hunt_A1-A2.pdf" class="btn" download>Download PDF</a>
                 </div>
             </div>
             
-            <!-- Lesson Plan 2 -->
-            <div class="resource-card">
+            <div class="resource-card" data-levels="A1" data-types="Vocabulary Listening Digital">
                 <div class="card-header">
                     <h3>Picture Dictation 2.0</h3>
                 </div>
                 <div class="card-body">
-                    <p>Tech-enhanced version of the classic activity using digital whiteboards.</p>
+                    <p>A modern, tech-enhanced version of the classic picture dictation activity, perfect for developing descriptive language and listening skills.</p>
                     <span class="level-badge A1">A1</span>
-                    <div class="resource-type">Vocabulary • Listening</div>
+                    <div class="resource-type">Vocabulary • Listening • Digital</div>
                     
                     <div class="lesson-details">
                         <h4>Lesson Plan Highlights:</h4>
-                        <p><strong>Warm-up:</strong> Quick sketch game with basic nouns</p>
-                        <p><strong>Activity:</strong> Partner A describes an image while Partner B draws on digital whiteboard</p>
-                        <p><strong>Tech Tip:</strong> Use breakout rooms for pair work in online classes</p>
+                        <ul>
+                            <li><strong>Learning Objectives:</strong> Students will be able to describe simple images using basic vocabulary and prepositions; understand spoken descriptions and reproduce images accurately.</li>
+                            <li><strong>Target Audience:</strong> Beginner learners (A1).</li>
+                            <li><strong>Materials:</strong> Digital whiteboards (e.g., Jamboard, Miro, Zoom whiteboard), prepared images (simple scenes with objects, people, actions).</li>
+                            <li><strong>Procedure Outline:</strong>
+                                <ol>
+                                    <li><strong>Warm-up (5-7 min):</strong> Quick sketch game – Teacher says a basic noun (e.g., "house," "tree," "cat"), students quickly sketch it. Compare drawings.</li>
+                                    <li><strong>Activity (25-35 min):</strong> Divide students into pairs (or breakout rooms online). Partner A has a secret image, Partner B has a blank digital whiteboard. Partner A describes the image in detail (e.g., "There is a big red apple on the table. Next to the apple, there is a small blue box."). Partner B draws what they hear. Switch roles after 2-3 images.</li>
+                                    <li><strong>Review (10 min):</strong> Pairs compare their drawings to the original images. Discuss challenges and successful descriptions.</li>
+                                    <li><strong>Tech Tip:</strong> For online classes, utilize breakout rooms and screen sharing for pairs to work on their shared digital whiteboards.</li>
+                                </ol>
+                            </li>
+                            <li><strong>Differentiation:</strong> Provide a word bank or sentence starters for lower levels; encourage more complex adjectives and adverbs for advanced A1 learners.</li>
+                        </ul>
                     </div>
                     
-                    <a href="#download2" class="btn">Download PDF</a>
+                    <a href="downloads/picture_dictation_2.0_A1.pdf" class="btn" download>Download PDF</a>
                 </div>
             </div>
             
-            <!-- Lesson Plan 3 -->
-            <div class="resource-card">
+            <div class="resource-card" data-levels="A2" data-types="Grammar Digital Creative">
                 <div class="card-header">
                     <h3>Grammar in Memes</h3>
                 </div>
                 <div class="card-body">
-                    <p>Teaching verb tenses through popular meme formats.</p>
+                    <p>Engage students with contemporary culture by teaching and practicing various verb tenses through popular meme formats.</p>
                     <span class="level-badge A2">A2</span>
-                    <div class="resource-type">Grammar • Digital</div>
+                    <div class="resource-type">Grammar • Digital • Creative</div>
                     
                     <div class="lesson-details">
                         <h4>Lesson Plan Highlights:</h4>
-                        <p><strong>Warm-up:</strong> "What's the joke?" meme interpretation</p>
-                        <p><strong>Activity:</strong> Students create memes using target grammar structures</p>
-                        <p><strong>Extension:</strong> Class meme contest with voting</p>
+                        <ul>
+                            <li><strong>Learning Objectives:</strong> Students will be able to identify and correctly use target grammar structures (e.g., Past Simple, Present Perfect, Future with 'will/going to') in a creative context; understand humor and nuances in English memes.</li>
+                            <li><strong>Target Audience:</strong> Pre-intermediate learners (A2).</li>
+                            <li><strong>Materials:</strong> Projector, internet access, collection of appropriate memes demonstrating target grammar (e.g., "One does not simply walk into Mordor" for Present Simple; "Drake Hotline Bling" for comparisons), online meme generator (optional).</li>
+                            <li><strong>Procedure Outline:</strong>
+                                <ol>
+                                    <li><strong>Warm-up (5-10 min):</strong> Show a few well-known memes and ask "What's the joke?" or "What do you understand from this meme?". Discuss their interpretations.</li>
+                                    <li><strong>Introduction (10 min):</strong> Introduce target grammar (e.g., Present Perfect). Show 2-3 memes that subtly use this tense. Analyze the meme text and how the grammar contributes to the meaning/humor.</li>
+                                    <li><strong>Activity (25-35 min):</strong> In pairs or small groups, provide students with a selection of meme templates (images) and a list of scenarios or themes. Challenge them to create their own memes using the target grammar structure. Encourage creativity and humor.</li>
+                                    <li><strong>Presentation & Voting (10-15 min):</strong> Groups present their memes. Conduct a class meme contest where students vote for the funniest, most original, or best grammar-focused meme.</li>
+                                </ol>
+                            </li>
+                            <li><strong>Extension:</strong> Students find or create memes that represent other grammar points they've learned.</li>
+                        </ul>
                     </div>
                     
-                    <a href="#download3" class="btn">Download PDF</a>
+                    <a href="downloads/grammar_in_memes_A2.pdf" class="btn" download>Download PDF</a>
                 </div>
             </div>
             
-            <!-- Lesson Plan 4 -->
-            <div class="resource-card">
+            <div class="resource-card" data-levels="A1" data-types="Speaking Task-Based Role Play">
                 <div class="card-header">
                     <h3>Survival English Role Play</h3>
                 </div>
                 <div class="card-body">
-                    <p>Practical scenarios for essential communication.</p>
+                    <p>Practical, scenario-based role-playing activities designed to equip students with essential communication skills for real-life situations.</p>
                     <span class="level-badge A1">A1</span>
-                    <div class="resource-type">Speaking • Task-Based</div>
+                    <div class="resource-type">Speaking • Task-Based • Role Play</div>
                     
                     <div class="lesson-details">
                         <h4>Lesson Plan Highlights:</h4>
-                        <p><strong>Warm-up:</strong> "What would you do if..." emergency situations</p>
-                        <p><strong>Activity:</strong> Role plays (lost phone, doctor visit, etc.) with language frames</p>
-                        <p><strong>Extension:</strong> Create emergency phrasebooks</p>
+                        <ul>
+                            <li><strong>Learning Objectives:</strong> Students will be able to use basic English phrases to ask for help, give personal information, and navigate common everyday situations.</li>
+                            <li><strong>Target Audience:</strong> Beginner learners (A1), focusing on functional language.</li>
+                            <li><strong>Materials:</strong> Scenario cards (e.g., "lost phone," "doctor visit," "ordering food," "asking for directions"), language frames/sentence starters (e.g., "Excuse me, I need help with...", "Can you tell me where...?", "I'm looking for...").</li>
+                            <li><strong>Procedure Outline:</strong>
+                                <ol>
+                                    <li><strong>Warm-up (5-10 min):</strong> "What would you do if..." - present simple emergency situations (e.g., "What do you do if you lose your passport?"). Brainstorm initial responses.</li>
+                                    <li><strong>Vocabulary & Phrases (10-15 min):</strong> Introduce key vocabulary and useful phrases for the given scenarios. Practice pronunciation and intonation.</li>
+                                    <li><strong>Activity (30-40 min):</strong> Divide students into pairs or small groups. Assign each group a scenario card and corresponding roles (e.g., tourist and helpful local; patient and doctor). Provide language frames as support. Students practice their role plays.</li>
+                                    <li><strong>Performance & Feedback (10-15 min):</strong> Selected pairs perform their role plays for the class. Provide constructive feedback on clarity, fluency, and appropriate language use.</li>
+                                    <li><strong>Extension:</strong> Students create their own survival English scenarios and write short dialogues.</li>
+                                </ol>
+                            </li>
+                            <li><strong>Differentiation:</strong> Provide more explicit scripts for lower levels; encourage improvisation for more confident learners.</li>
+                        </ul>
                     </div>
                     
-                    <a href="#download4" class="btn">Download PDF</a>
+                    <a href="downloads/survival_english_role_play_A1.pdf" class="btn" download>Download PDF</a>
                 </div>
             </div>
             
-            <!-- Lesson Plan 5 -->
-            <div class="resource-card">
+            <div class="resource-card" data-levels="A2 B1" data-types="Grammar Visual Collaborative">
                 <div class="card-header">
                     <h3>Verb Tense Timeline Challenge</h3>
                 </div>
                 <div class="card-body">
-                    <p>Interactive timeline activity for visualizing tenses.</p>
+                    <p>An engaging, interactive timeline activity designed to help students visualize and correctly apply various verb tenses in context.</p>
                     <span class="level-badge A2">A2</span>
-                    <div class="resource-type">Grammar • Visual</div>
+                    <span class="level-badge B1">B1</span>
+                    <div class="resource-type">Grammar • Visual • Collaborative</div>
                     
                     <div class="lesson-details">
                         <h4>Lesson Plan Highlights:</h4>
-                        <p><strong>Warm-up:</strong> "When I was 10..." chain story</p>
-                        <p><strong>Activity:</strong> Teams arrange events on digital timeline with correct tenses</p>
-                        <p><strong>Tech Tip:</strong> Use Jamboard or Miro for collaborative timelines</p>
+                        <ul>
+                            <li><strong>Learning Objectives:</strong> Students will be able to differentiate between and accurately use Past Simple, Present Perfect, and Past Continuous tenses to narrate events in a chronological order.</li>
+                            <li><strong>Target Audience:</strong> Pre-intermediate to intermediate learners (A2-B1).</li>
+                            <li><strong>Materials:</strong> Large paper or digital whiteboard, sticky notes or digital "cards" with events/actions, markers/digital pens.</li>
+                            <li><strong>Procedure Outline:</strong>
+                                <ol>
+                                    <li><strong>Warm-up (5-10 min):</strong> "When I was 10..." chain story. Students take turns adding a sentence about their past, building a narrative. (e.g., "When I was 10, I loved ice cream. My friend bought me a cone...").</li>
+                                    <li><strong>Introduction (10-15 min):</strong> Review the concepts of different verb tenses and their placement on a timeline (past, present, future). Emphasize how certain tenses connect events.</li>
+                                    <li><strong>Activity (30-40 min):</strong> Divide the class into teams. Provide each team with a set of "event cards" (e.g., "I started learning English," "I graduated high school," "I have visited 5 countries," "I was sleeping when the phone rang"). Their task is to arrange these events on a timeline, writing a sentence for each using the most appropriate verb tense.</li>
+                                    <li><strong>Review & Discussion (10-15 min):</strong> Teams present their timelines and justify their tense choices. Discuss any discrepancies and clarify tense usage.</li>
+                                    <li><strong>Tech Tip:</strong> Use collaborative online whiteboards like Jamboard or Miro for teams to create and share their digital timelines.</li>
+                                </ol>
+                            </li>
+                            <li><strong>Differentiation:</strong> Provide cues on cards (e.g., "use Present Perfect here") for lower levels; introduce more complex tenses (e.g., Past Perfect) for B1 learners.</li>
+                        </ul>
                     </div>
                     
-                    <a href="#download5" class="btn">Download PDF</a>
+                    <a href="downloads/verb_tense_timeline_A2-B1.pdf" class="btn" download>Download PDF</a>
                 </div>
             </div>
             
-            <!-- Lesson Plan 6 -->
-            <div class="resource-card">
+            <div class="resource-card" data-levels="A2 B1" data-types="Speaking Critical Thinking Debate">
                 <div class="card-header">
                     <h3>5-Minute Debate Starters</h3>
                 </div>
                 <div class="card-body">
-                    <p>Quick opinion activities for developing fluency.</p>
+                    <p>A collection of quick, engaging opinion activities designed to get students speaking, sharing ideas, and developing their fluency and critical thinking.</p>
                     <span class="level-badge A2">A2</span>
-                    <div class="resource-type">Speaking • Critical Thinking</div>
+                    <span class="level-badge B1">B1</span>
+                    <div class="resource-type">Speaking • Critical Thinking • Debate</div>
                     
                     <div class="lesson-details">
                         <h4>Lesson Plan Highlights:</h4>
-                        <p><strong>Warm-up:</strong> "Stand up if you agree..." physical response</p>
-                        <p><strong>Activity:</strong> Simple debate topics with language support ("I think... because...")</p>
-                        <p><strong>Extension:</strong> Record short video responses</p>
+                        <ul>
+                            <li><strong>Learning Objectives:</strong> Students will be able to express opinions, agree/disagree, and provide simple justifications in English; practice active listening and turn-taking in discussions.</li>
+                            <li><strong>Target Audience:</strong> Pre-intermediate to intermediate learners (A2-B1).</li>
+                            <li><strong>Materials:</strong> List of debate prompts (e.g., "Summer is better than winter," "Dogs are better pets than cats," "Homework should be abolished"), timer.</li>
+                            <li><strong>Procedure Outline:</strong>
+                                <ol>
+                                    <li><strong>Warm-up (3-5 min):</strong> "Stand up if you agree..." - Teacher states a simple opinion (e.g., "Pizza is the best food."), students physically respond by standing up if they agree.</li>
+                                    <li><strong>Introduction (5 min):</strong> Introduce sentence starters for expressing opinions and agreement/disagreement (e.g., "I think...", "In my opinion...", "I agree because...", "I don't agree. I think...").</li>
+                                    <li><strong>Activity (20-30 min):</strong> Present a debate topic. Divide the class into two sides (for and against). Give them 2-3 minutes to brainstorm arguments. Then, facilitate a short, structured debate (e.g., 1 minute per side for opening statements, 2 minutes for rebuttal, 1 minute for closing). Rotate topics every 5-7 minutes.</li>
+                                    <li><strong>Feedback (5-10 min):</strong> Provide brief feedback on language use and participation. Encourage students to reflect on strong arguments.</li>
+                                    <li><strong>Extension:</strong> Students record short video responses expressing their opinion on a topic.</li>
+                                </ol>
+                            </li>
+                            <li><strong>Differentiation:</strong> Provide more explicit argument points for lower levels; challenge higher levels to use more complex linking words and rhetorical devices.</li>
+                        </ul>
                     </div>
                     
-                    <a href="#download6" class="btn">Download PDF</a>
+                    <a href="downloads/5_minute_debates_A2-B1.pdf" class="btn" download>Download PDF</a>
                 </div>
             </div>
         </div>
         
         <h2 style="margin-top: 3rem;">Warm-up Activities Collection</h2>
         
-        <div class="resource-grid">
-            <!-- Warm-up 1 -->
-            <div class="resource-card">
+        <div class="resource-grid" id="warmupGrid">
+            <div class="resource-card" data-levels="A1 A2" data-types="Creative Speaking Digital Warm-ups">
                 <div class="card-header" style="background: #d81b60;">
                     <h3>Emoji Storytelling</h3>
                 </div>
                 <div class="card-body">
-                    <p>Students create and interpret stories using only emojis.</p>
+                    <p>A fun and creative way to kickstart language production, where students construct narratives using only emojis.</p>
                     <span class="level-badge A1">A1</span>
                     <span class="level-badge A2">A2</span>
-                    <div class="resource-type">Creative • Speaking</div>
+                    <div class="resource-type">Creative • Speaking • Warm-ups</div>
                     
                     <div class="lesson-details">
                         <h4>How to:</h4>
-                        <ol>
-                            <li>Teacher shows 5 emojis in sequence</li>
-                            <li>Pairs create a story connecting them</li>
-                            <li>Groups share and vote for best story</li>
-                        </ol>
-                        <p><strong>Variation:</strong> Students create their own emoji sequences</p>
+                        <ul>
+                            <li><strong>Learning Focus:</strong> Narrative building, vocabulary recall, imaginative thinking.</li>
+                            <li><strong>Procedure:</strong>
+                                <ol>
+                                    <li>Teacher displays 3-5 emojis in a sequence on the screen (e.g., 🚀➡️👽➡️🍕).</li>
+                                    <li>In pairs or small groups, students must create a short story that connects all the emojis in order. Encourage them to be imaginative.</li>
+                                    <li>Groups share their stories with the class.</li>
+                                    <li><strong>Variation:</strong> Students create their own emoji sequences for other groups to interpret.</li>
+                                </ol>
+                            </li>
+                            <li><strong>Online Adaption:</strong> Use screen sharing for emojis, and chat/breakout rooms for story creation.</li>
+                        </ul>
                     </div>
                     
-                    <a href="#download7" class="btn">Download PDF</a>
+                    <a href="downloads/emoji_storytelling_A1-A2.pdf" class="btn" download>Download PDF</a>
                 </div>
             </div>
             
-            <!-- Warm-up 2 -->
-            <div class="resource-card">
+            <div class="resource-card" data-levels="A1 A2 B1" data-types="Vocabulary Fast-paced Warm-ups">
                 <div class="card-header" style="background: #5e35b1;">
                     <h3>Word Association Chain</h3>
                 </div>
                 <div class="card-body">
-                    <p>Fast-paced vocabulary activator with a competitive twist.</p>
+                    <p>A fast-paced vocabulary activation game that encourages quick thinking and expands lexical networks.</p>
                     <span class="level-badge A1">A1</span>
                     <span class="level-badge A2">A2</span>
-                    <div class="resource-type">Vocabulary • Fast-paced</div>
+                    <span class="level-badge B1">B1</span>
+                    <div class="resource-type">Vocabulary • Fast-paced • Warm-ups</div>
                     
                     <div class="lesson-details">
                         <h4>How to:</h4>
-                        <ol>
-                            <li>Teacher starts with a word (e.g., "apple")</li>
-                            <li>Next student says associated word ("red")</li>
-                            <li>Continue with no repeats until someone hesitates</li>
-                        </ol>
-                        <p><strong>Tech Option:</strong> Use chat for online version</p>
+                        <ul>
+                            <li><strong>Learning Focus:</strong> Vocabulary recall, semantic networks, quick thinking.</li>
+                            <li><strong>Procedure:</strong>
+                                <ol>
+                                    <li>Teacher starts with a word (e.g., "ocean").</li>
+                                    <li>The next student immediately says a word associated with the previous one (e.g., "fish").</li>
+                                    <li>The game continues around the circle. Words cannot be repeated.</li>
+                                    <li>A student is out if they hesitate for too long or repeat a word.</li>
+                                </ol>
+                            </li>
+                            <li><strong>Add Challenge:</strong> Introduce a topic (e.g., "food," "travel") to keep associations within a specific theme.</li>
+                            <li><strong>Tech Option:</strong> Use the chatbox for an online version, students type their words quickly.</li>
+                        </ul>
                     </div>
                     
-                    <a href="#download8" class="btn">Download PDF</a>
+                    <a href="downloads/word_association_chain_A1-B1.pdf" class="btn" download>Download PDF</a>
                 </div>
             </div>
             
-            <!-- Warm-up 3 -->
-            <div class="resource-card">
+            <div class="resource-card" data-levels="A2 B1" data-types="Grammar Active Speaking Warm-ups">
                 <div class="card-header" style="background: #00897b;">
                     <h3>Silent Ball Grammar Review</h3>
                 </div>
                 <div class="card-body">
-                    <p>Kinesthetic activity for tense review.</p>
+                    <p>A dynamic, kinesthetic activity for reviewing specific grammar points, promoting active participation and immediate application.</p>
                     <span class="level-badge A2">A2</span>
-                    <div class="resource-type">Grammar • Active</div>
+                    <span class="level-badge B1">B1</span>
+                    <div class="resource-type">Grammar • Active • Warm-ups</div>
                     
                     <div class="lesson-details">
                         <h4>How to:</h4>
-                        <ol>
-                            <li>Students stand in circle tossing soft ball</li>
-                            <li>Catcher must say a sentence in target tense</li>
-                            <li>Add challenge: include specific vocabulary</li>
-                        </ol>
-                        <p><strong>Online Adaption:</strong> Use virtual ball toss apps</p>
+                        <ul>
+                            <li><strong>Learning Focus:</strong> Grammar review (e.g., Past Simple, Present Perfect, Conditionals), sentence construction, quick recall.</li>
+                            <li><strong>Procedure:</strong>
+                                <ol>
+                                    <li>Students stand in a circle. The teacher introduces a target grammar point (e.g., "Today we'll practice Past Simple sentences.").</li>
+                                    <li>The teacher tosses a soft ball to a student. That student must immediately say a grammatically correct sentence using the target tense.</li>
+                                    <li>They then toss the ball to another student, who must say a new sentence in the target tense.</li>
+                                    <li>If a student makes a mistake or hesitates for too long, they're "out" or must complete a quick challenge.</li>
+                                </ol>
+                            </li>
+                            <li><strong>Add Challenge:</strong> Specify a theme or a vocabulary word that must be included in the sentence.</li>
+                            <li><strong>Online Adaption:</strong> Use a virtual ball toss app or simply call on students rapidly.</li>
+                        </ul>
                     </div>
                     
-                    <a href="#download9" class="btn">Download PDF</a>
+                    <a href="downloads/silent_ball_grammar_A2-B1.pdf" class="btn" download>Download PDF</a>
                 </div>
             </div>
         </div>
@@ -428,21 +547,60 @@
     </footer>
     
     <script>
-        // Simple filter functionality
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                // In a real implementation, you would filter resources here
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('searchInput');
+            const resourceCards = document.querySelectorAll('.resource-card');
+
+            let activeFilter = 'all';
+            let searchQuery = '';
+
+            function filterResources() {
+                resourceCards.forEach(card => {
+                    const cardLevels = card.dataset.levels.split(' ');
+                    const cardTypes = card.dataset.types.split(' ');
+                    const cardText = card.textContent.toLowerCase();
+
+                    const matchesFilter = (activeFilter === 'all' || cardLevels.includes(activeFilter) || cardTypes.includes(activeFilter));
+                    const matchesSearch = cardText.includes(searchQuery);
+
+                    if (matchesFilter && matchesSearch) {
+                        card.style.display = 'flex'; // Show card
+                    } else {
+                        card.style.display = 'none'; // Hide card
+                    }
+                });
+            }
+
+            // Filter button click handler
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    activeFilter = this.dataset.filter;
+                    filterResources();
+                });
             });
-        });
-        
-        // PDF download simulation
-        document.querySelectorAll('[href^="#download"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('In a live implementation, this would download a PDF with:\n\n- Complete lesson plan\n- IRIS Language Academy branding\n- Printable worksheets\n- Teacher notes');
+
+            // Search input handler
+            searchInput.addEventListener('keyup', function() {
+                searchQuery = this.value.toLowerCase();
+                filterResources();
             });
+
+            // PDF download simulation (updated to use actual download attribute)
+            document.querySelectorAll('.btn[download]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // In a real application, you would replace this with actual PDF paths.
+                    // The 'download' attribute on the anchor tag will handle the download.
+                    // For demonstration, we'll just show a confirmation message.
+                    console.log(`Attempting to download: ${this.href}`);
+                    // Optionally, you could show a temporary message or animate a download icon.
+                });
+            });
+
+            // Initial filter application
+            filterResources();
         });
     </script>
 </body>
