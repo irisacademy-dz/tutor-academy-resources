@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRIS Tutor Academy: Cultural Celebrations Lesson</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset & Box-Sizing */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary-bg: #F8F8F8; /* Light background */
+            --secondary-bg: #EAEAEA; /* Slightly darker for contrast */
+            --text-color: #333; /* Dark grey for body text */
+            --heading-color: #1A1A1A; /* Very dark for headings */
+            --accent-color: #007BFF; /* A vibrant blue for accents/links */
+            --border-color: #DDD; /* Light grey for borders */
+            --shadow-color: rgba(0, 0, 0, 0.05); /* Subtle shadow */
+
+            --font-main: 'Open Sans', sans-serif;
+            --font-heading: 'Montserrat', sans-serif;
+            --max-width: 900px;
+            --padding-base: 20px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--primary-bg);
+            padding: var(--padding-base);
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            background-color: #FFF;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            overflow: hidden; /* Ensures borders/shadows are respected */
+        }
+
+        /* Header Styling */
+        header {
+            background-color: var(--accent-color);
+            color: #FFF;
+            padding: var(--padding-base) 40px;
+            text-align: center;
+            border-bottom: 5px solid #0056b3; /* Darker accent */
+        }
+
+        header h1 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 2.2em;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        /* Main Content Sectioning */
+        .lesson-section {
+            padding: var(--padding-base) 40px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 0; /* Override default margin */
+        }
+
+        .lesson-section:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-section h2 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1.8em;
+            color: var(--heading-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-bg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lesson-section h3 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1.3em;
+            color: var(--accent-color);
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        /* General Text & List Styles */
+        p {
+            margin-bottom: 1em;
+            line-height: 1.7;
+        }
+
+        ul {
+            list-style: none; /* Remove default bullet points */
+            margin-left: 0;
+            padding-left: 0;
+            margin-bottom: 1em;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+        }
+
+        ul li::before {
+            content: '•'; /* Custom bullet point */
+            color: var(--accent-color);
+            font-size: 1.2em;
+            position: absolute;
+            left: 0;
+            top: 0;
+            line-height: inherit;
+        }
+
+        /* Image Styling */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 200px; /* Fixed height for consistency */
+            object-fit: cover; /* Ensures images fill their space without distortion */
+            border-radius: 6px;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .image-gallery img:hover {
+            transform: scale(1.02);
+        }
+
+        .full-width-image {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 30px 0;
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+
+        /* Specific Section Styling */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .overview-item {
+            background-color: var(--secondary-bg);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.95em;
+            font-weight: 600;
+            color: var(--heading-color);
+        }
+
+        .overview-item span {
+            display: block;
+            font-weight: 400;
+            margin-top: 5px;
+            color: var(--text-color);
+        }
+
+        .teacher-notes {
+            background-color: #FFF3E0; /* Soft orange for notes */
+            border-left: 5px solid #FF9800;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #6D4C41;
+        }
+
+        .teacher-notes strong {
+            color: #E65100;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: var(--padding-base) 40px;
+            font-size: 0.85em;
+            color: #888;
+            background-color: var(--secondary-bg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .lesson-section {
+                padding: var(--padding-base) 20px;
+            }
+
+            header {
+                padding: var(--padding-base) 20px;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .lesson-section h2 {
+                font-size: 1.5em;
+            }
+
+            .image-gallery {
+                grid-template-columns: 1fr; /* Stack images on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>IRIS Tutor Academy</h1>
+            <p>Mastering English Through Culture</p>
+            <h1>Exploring Cultural Celebrations Around the World</h1>
+        </header>
+
+        <main>
+            <section class="lesson-section" id="overview">
+                <h2>Lesson Overview</h2>
+                <div class="overview-grid">
+                    <div class="overview-item">Level: <span>Intermediate (B1-B2)</span></div>
+                    <div class="overview-item">Time: <span>90 minutes</span></div>
+                    <div class="overview-item">Focus: <span>Speaking, Vocabulary, Culture</span></div>
+                    <div class="overview-item">Materials: <span>Internet access, Projector, Handouts</span></div>
+                </div>
+                <h3>Learning Objectives:</h3>
+                <ul>
+                    <li>Students will identify common elements and purposes of cultural celebrations.</li>
+                    <li>Students will learn and use new vocabulary related to festivals and traditions.</li>
+                    <li>Students will practice describing and discussing cultural events from their own country and others.</li>
+                    <li>Students will develop cross-cultural awareness and appreciation.</li>
+                </ul>
+            </section>
+
+            <section class="lesson-section" id="warm-up">
+                <h2>Warm-Up: A World of Joy</h2>
+                <p>Start by showing a diverse collection of images depicting different celebrations without revealing their names. Ask students to describe what they see and guess where they might be from or what they are celebrating.</p>
+                <div class="image-gallery">
+                    <img src="https://via.placeholder.com/300x200/FF5733/FFFFFF?text=Lantern+Festival" alt="Colorful lanterns floating in the sky during a festival.">
+                    <img src="https://via.placeholder.com/300x200/33FF57/FFFFFF?text=Carnival+Dancers" alt="People in elaborate, colorful costumes dancing in a street parade.">
+                    <img src="https://via.placeholder.com/300x200/3357FF/FFFFFF?text=Diwali+Lights" alt="Brightly lit houses and fireworks during Diwali.">
+                </div>
+                <p><strong>Discussion Questions:</strong></p>
+                <ul>
+                    <li>What do all these images have in common?</li>
+                    <li>Do you have similar celebrations in your country?</li>
+                    <li>What emotions do these pictures evoke?</li>
+                </ul>
+                <div class="teacher-notes">
+                    <strong>Teacher Note:</strong> Encourage open discussion. This activity aims to activate prior knowledge and generate enthusiasm. Don't reveal specific names yet.
+                </div>
+            </section>
+
+            <section class="lesson-section" id="vocabulary">
+                <h2>Vocabulary: The Language of Celebration</h2>
+                <p>Introduce key vocabulary related to celebrations. Use visuals to enhance understanding and memory. Students can match words to pictures or definitions.</p>
+                <h3>Key Terms:</h3>
+                <ul>
+                    <li>**Festival:** A day or period of celebration, typically for religious or cultural reasons.</li>
+                    <li>**Tradition:** A custom or belief passed down through generations.</li>
+                    <li>**Ritual:** A religious or solemn ceremony consisting of a series of actions performed in a prescribed order.</li>
+                    <li>**Parade:** A public procession, especially one celebrating a special day or event.</li>
+                    <li>**Feast:** A large meal, typically one in celebration of something.</li>
+                    <li>**Costume:** A set of clothes worn by an actor or by someone to make them look like someone or something else for a celebration.</li>
+                    <li>**Fireworks:** A device containing gunpowder and other combustible chemicals that causes a display of light, noise, and smoke when set off.</li>
+                    <li>**Procession:** A number of people or vehicles moving forward in an orderly way, especially as part of a ceremony or festival.</li>
+                </ul>
+                <div class="image-gallery">
+                    <img src="https://via.placeholder.com/300x200/8B0000/FFFFFF?text=Traditional+Costume" alt="A person wearing a traditional festival costume.">
+                    <img src="https://via.placeholder.com/300x200/4169E1/FFFFFF?text=Street+Parade" alt="A vibrant street parade with floats and dancers.">
+                    <img src="https://via.placeholder.com/300x200/DAA520/FFFFFF?text=Festival+Food" alt="Delicious traditional food served during a festival.">
+                    <img src="https://via.placeholder.com/300x200/9400D3/FFFFFF?text=Bonfire+Celebration" alt="People gathering around a large bonfire during a celebration.">
+                </div>
+                <p><strong>Activity: Define & Draw!</strong></p>
+                <p>In pairs, students choose 3-4 new vocabulary words and try to draw them or describe them to another pair without saying the word itself.</p>
+            </section>
+
+            <section class="lesson-section" id="deep-dive">
+                <h2>Deep Dive: Famous Celebrations</h2>
+                <p>Introduce a few prominent cultural celebrations from different parts of the world. Provide a brief description and a striking image for each. Encourage students to ask questions.</p>
+                <h3>Example 1: Diwali (India)</h3>
+                <img src="https://via.placeholder.com/800x300/FFA500/FFFFFF?text=Diwali+Celebration" alt="Family lighting diyas and fireworks during Diwali." class="full-width-image">
+                <p>Diwali, the "Festival of Lights," is celebrated over five days by Hindus, Jains, and Sikhs. It symbolizes the victory of light over darkness, good over evil, and knowledge over ignorance. People light lamps, decorate their homes, exchange gifts, and enjoy feasts and fireworks.</p>
+                <h3>Example 2: Carnival (Brazil)</h3>
+                <img src="https://via.placeholder.com/800x300/FF69B4/FFFFFF?text=Rio+Carnival" alt="Samba dancers in elaborate costumes at Rio Carnival." class="full-width-image">
+                <p>Carnival in Brazil is a vibrant, week-long celebration before Lent. Famous for its spectacular samba parades, extravagant costumes, lively music, and street parties. It's a time of immense energy and joy, attracting millions of tourists.</p>
+                <h3>Example 3: Cherry Blossom Festival (Japan)</h3>
+                <img src="https://via.placeholder.com/800x300/DAF7A6/000000?text=Cherry+Blossom+Festival" alt="People picnicking under blooming cherry blossom trees in Japan." class="full-width-image">
+                <p>Known as 'Hanami', the cherry blossom festival in Japan celebrates the fleeting beauty of the sakura (cherry blossoms). People gather in parks for picnics, strolls, and to appreciate the blossoms. It's a time of reflection and renewal, marking the arrival of spring.</p>
+                <div class="teacher-notes">
+                    <strong>Teacher Note:</strong> Choose 2-3 celebrations relevant to your students' backgrounds or common knowledge. Encourage students to share if they know about these or other global festivals.
+                </div>
+            </section>
+
+            <section class="lesson-section" id="activities">
+                <h2>Activities: Sharing Our Cultures</h2>
+                <h3>Activity 1: My Country's Celebration (Pair Work)</h3>
+                <p>Students work in pairs. Each student chooses a significant celebration from their own country (or a country they know well) and describes it to their partner using the new vocabulary. They should cover:</p>
+                <ul>
+                    <li>What is it called?</li>
+                    <li>When and why is it celebrated?</li>
+                    <li>What traditions, rituals, or customs are involved?</li>
+                    <li>What kind of food, music, or costumes are typical?</li>
+                    <li>What is its significance?</li>
+                </ul>
+                <div class="image-gallery">
+                    <img src="https://via.placeholder.com/300x200/5DADE2/FFFFFF?text=Students+Talking+1" alt="Two students engaged in a conversation." >
+                    <img src="https://via.placeholder.com/300x200/A569BD/FFFFFF?text=Students+Talking+2" alt="A group of students collaborating and discussing." >
+                </div>
+
+                <h3>Activity 2: Design a New Festival (Group Project)</h3>
+                <p>In small groups, students imagine and design a brand new cultural festival. They must decide on:</p>
+                <ul>
+                    <li>The name of the festival.</li>
+                    <li>Its purpose/what it celebrates.</li>
+                    <li>When and where it takes place.</li>
+                    <li>Specific rituals, activities, food, or costumes.</li>
+                    <li>They should present their festival using descriptive language and even draw or find images to illustrate their ideas.</li>
+                </ul>
+                <img src="https://via.placeholder.com/800x300/FFD700/000000?text=Brainstorming+Ideas" alt="People brainstorming creative ideas on a whiteboard." class="full-width-image">
+
+                <div class="teacher-notes">
+                    <strong>Teacher Note:</strong> For Activity 2, provide large paper or digital tools for students to sketch their festival ideas. Encourage creativity and the use of the new vocabulary.
+                </div>
+            </section>
+
+            <section class="lesson-section" id="wrap-up">
+                <h2>Wrap-Up & Reflection</h2>
+                <p>Conclude the lesson by reviewing key takeaways and encouraging reflection.</p>
+                <ul>
+                    <li>What was the most interesting celebration you learned about today?</li>
+                    <li>What makes a celebration special?</li>
+                    <li>How can learning about different cultures help us?</li>
+                </ul>
+                <div class="teacher-notes">
+                    <strong>Teacher Note:</strong> Briefly summarize the main points of the lesson. Encourage students to share their favorite parts.
+                </div>
+                <h3>Homework Suggestion:</h3>
+                <p>Research another unique cultural celebration from any country and prepare a short (2-3 minute) presentation for the next class, including at least two images.</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 IRIS Tutor Academy. All rights reserved.</p>
+            <p>Designed for engaging ESL instruction.</p>
+        </footer>
+    </div>
+</body>
+</html>
